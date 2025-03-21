@@ -4,6 +4,8 @@ These projects are created as part of the following training: DCL-306 "Developin
 
 Please follow the link for the complete training catalog: https://www.deepcloudlabs.com/resources
 
+https://www.deepcloudlabs.com/resources/deepcloudlabs.catalog.for.training.and.consultancy.services-en.US-2025a.pdf
+
 Kurulum Bilgisi:
 ========================================
 Eğitimde lab çalışmaları için gerekli olan çalışma ortamının kurulumu için öncelikle aşağıdaki bağlantıda yer alan sıkıştırılmış dosyayı makinanıza indirmeniz gerekiyor: https://courseware.deepcloudlabs.com/software/DEVEL-stage.2024b-nodejs.mongo.webstorm.zip
