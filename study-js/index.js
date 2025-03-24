@@ -4,3 +4,6 @@
 // 4. Event-Driven/Triggered Programming
 // 5. Asynchronous Programming
 // 6. Reactive Programming --> Asynchronous++
+// state -> programmatically changed (js) -> View
+//  /\                                         |
+//   |_____________Event_______________________|
