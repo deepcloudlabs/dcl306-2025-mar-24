@@ -9,6 +9,7 @@ export function createSecret(level) {
         if (digits.includes(candidate)) continue;
         digits.push(candidate);
     }
+    console.log(digits)
     return digits.join('');
 }
 
