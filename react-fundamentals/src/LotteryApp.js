@@ -35,7 +35,7 @@ class LotteryApp extends React.PureComponent {
 
     drawLotteryNumbers = () => {
         let lotteryNumbers = [];
-        for (let i = 0; i <= this.state.column; i++) {
+        for (let i = 0; i < this.state.column; i++) {
             lotteryNumbers.push(this.drawNumber(1, 60, 6));
         }
         this.setState({lotteryNumbers});
