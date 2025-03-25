@@ -32,24 +32,6 @@ function Mastermind() {
         maxNumberOfMoves: 10
     })
     const navigate = useNavigate();
-    const countDown = () => {
-        if (counter <= 0) {
-            let newGame = {...game};
-            let newConstraints = {...constraints};
-            newGame.lives--;
-            if (newGame.lives === 0){
-                navigate("/loses");
-                return;
-            }
-            initializeGame(newGame, newConstraints);
-            setGame(newGame);
-            setConstraints(newConstraints);
-            setCounter(newConstraints.maxCounter);
-        } else {
-            setCounter(counter - 1);
-        }
-    }
-
     useEffect(() => {
         const state = localStorage.getItem("game");
         if (state) {
@@ -59,9 +41,25 @@ function Mastermind() {
         }
     }, []);
     useEffect(() => {
-        const timer = setInterval(countDown, 1_000);
+        const timer = setInterval(() => {
+            if (counter <= 0) {
+                let newGame = {...game};
+                let newConstraints = {...constraints};
+                newGame.lives--;
+                if (newGame.lives === 0) {
+                    navigate("/loses");
+                    return;
+                }
+                initializeGame(newGame, newConstraints);
+                setGame(newGame);
+                setConstraints(newConstraints);
+                setCounter(newConstraints.maxCounter);
+            } else {
+                setCounter(counter - 1);
+            }
+        }, 1_000);
         return () => clearInterval(timer);
-    }, [counter]);
+    }, [counter,game,constraints,navigate]);
     const handleGuess = (event) => {
         setGame({...game, guess: event.target.value});
     }
