@@ -34,11 +34,21 @@ class LotteryApp extends React.PureComponent {
     }
 
     drawLotteryNumbers = () => {
-        let lotteryNumbers = [];
+        let lotteryNumbers = [...this.state.lotteryNumbers];
         for (let i = 0; i < this.state.column; i++) {
             lotteryNumbers.push(this.drawNumber(1, 60, 6));
         }
         this.setState({lotteryNumbers});
+    }
+
+    resetLotteryNumbers = () => {
+        this.setState({lotteryNumbers: []});
+    }
+    removeRow = (rowIndex) => {
+        //let lotteryNumbers = this.state.lotteryNumbers.filter((u,i) => i !== rowIndex);
+        //let lotteryNumbers = [...this.state.lotteryNumbers];
+        //lotteryNumbers.splice(rowIndex, 1);
+        this.setState({lotteryNumbers: this.state.lotteryNumbers.filter((u,i) => i !== rowIndex)});
     }
     // [View] Model <- two-way binding -> View
     // state -> programmatically changed (js) -> View
@@ -67,18 +77,19 @@ class LotteryApp extends React.PureComponent {
                                            onChange={this.handleColumnChange}
                                     />
                                     <button className="btn btn-success" onClick={this.drawLotteryNumbers}>Draw</button>
+                                    <button className="btn btn-warning" onClick={this.resetLotteryNumbers}>Reset</button>
                                 </div>
                             </div>
                             <div className="row">
                                 <table className="table table-striped table-bordered table-hover table-responsive">
                                     <thead>
                                     <tr>
-                                        <th>First Column</th>
-                                        <th>Second Column</th>
-                                        <th>Third Column</th>
-                                        <th>Fourth Column</th>
-                                        <th>Fifth Column</th>
-                                        <th>Sixth Column</th>
+                                        {
+                                            Array.from(Array(6).keys()).map( i =>
+                                               <th key={i}>Column #{i+1}</th>
+                                            )
+                                        }
+                                        <th>Operations</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -88,9 +99,12 @@ class LotteryApp extends React.PureComponent {
                                                     {
                                                         numbers.map(number =>
                                                                 <td key={number}>{number}</td>
-
                                                         )
                                                     }
+                                                    <td>
+                                                        <button className="btn btn-danger"
+                                                                onClick={()=>this.removeRow(rowIndex)}>Remove</button>
+                                                    </td>
                                                 </tr>
                                         )
                                     }
