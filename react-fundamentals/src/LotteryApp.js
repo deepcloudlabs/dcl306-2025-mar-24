@@ -10,6 +10,8 @@ import Button from "./components/common/button";
 import Table from "./components/common/table";
 import TableHead from "./components/common/table-head";
 import TableBody from "./components/common/table-body";
+import * as console from "node:console";
+import * as console from "node:console";
 
 // Component -> Tag: View
 // 1. Class-Based Component -> Stateful Component
@@ -22,9 +24,22 @@ class LotteryApp extends React.PureComponent {
             column: 5,
             lotteryNumbers: []
         }
+        this.timer = null;
     }
 
-    // 1. functional programming 2. immutable
+    componentDidMount() {
+        this.timer = setInterval(()=>{
+            let column = this.state.column + 1;
+            this.setState({column});
+        }, 1_000);
+    }
+
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+
+// 1. functional programming 2. immutable
     handleColumnChange = (event) => {
         const newColumn = Number(event.target.value);
         this.setState({ // asynchronous?
