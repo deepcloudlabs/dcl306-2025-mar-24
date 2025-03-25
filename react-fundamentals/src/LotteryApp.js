@@ -1,4 +1,15 @@
 import React from "react";
+import Container from "./components/common/container";
+import Card from "./components/common/card";
+import CardHeader from "./components/common/card-header";
+import CardBody from "./components/common/card-body";
+import Row from "./components/common/row";
+import InputNumber from "./components/common/input-number";
+import Column from "./components/common/column";
+import Button from "./components/common/button";
+import Table from "./components/common/table";
+import TableHead from "./components/common/table-head";
+import TableBody from "./components/common/table-body";
 
 // Component -> Tag: View
 // 1. Class-Based Component -> Stateful Component
@@ -48,7 +59,7 @@ class LotteryApp extends React.PureComponent {
         //let lotteryNumbers = this.state.lotteryNumbers.filter((u,i) => i !== rowIndex);
         //let lotteryNumbers = [...this.state.lotteryNumbers];
         //lotteryNumbers.splice(rowIndex, 1);
-        this.setState({lotteryNumbers: this.state.lotteryNumbers.filter((u,i) => i !== rowIndex)});
+        this.setState({lotteryNumbers: this.state.lotteryNumbers.filter((u, i) => i !== rowIndex)});
     }
     // [View] Model <- two-way binding -> View
     // state -> programmatically changed (js) -> View
@@ -58,62 +69,58 @@ class LotteryApp extends React.PureComponent {
         return ( // View -> ReactDOM -> reconciliation(heuristic alg.) -- update --> Real DOM
             <>
                 <p/>
-                <div className="container">
-                    <div className="card">
-                        <div className="card-header">
-                            <h3 className="card-title">Lottery Application</h3>
-                        </div>
-                        <div className="card-body">
-                            <div className="row">
-                                <div className="col-6">
-                                    <label htmlFor={"column"} className={"form-label"}>Column:</label>
-                                    <input className={"form-control"} type={"number"}
-                                           name={"column"}
-                                           id={"column"}
-                                           min={1}
-                                           max={10}
-                                           placeholder={"Enter how many columns you want"}
-                                           value={this.state.column}
-                                           onChange={this.handleColumnChange}
+                <Container>
+                    <Card>
+                        <CardHeader title={"Lottery Application"}></CardHeader>
+                        <CardBody>
+                            <Row>
+                                <Column className="col-6">
+                                    <InputNumber label={"Column"}
+                                                 id={"column"}
+                                                 min={1}
+                                                 max={10}
+                                                 placeholderText={"Enter how many columns you want"}
+                                                 value={this.state.column}
+                                                 handleChange={this.handleColumnChange}
                                     />
-                                    <button className="btn btn-success" onClick={this.drawLotteryNumbers}>Draw</button>
-                                    <button className="btn btn-warning" onClick={this.resetLotteryNumbers}>Reset</button>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <table className="table table-striped table-bordered table-hover table-responsive">
-                                    <thead>
-                                    <tr>
+                                    <Button color="btn-success" click={this.drawLotteryNumbers} label={"Draw"}></Button>
+                                    <Button color="btn-warning" click={this.resetLotteryNumbers}
+                                            label={"Reset"}></Button>
+                                </Column>
+                            </Row>
+                            <Row>
+                                <Table>
+                                    <TableHead>
                                         {
-                                            Array.from(Array(6).keys()).map( i =>
-                                               <th key={i}>Column #{i+1}</th>
+                                            Array.from(Array(6).keys()).map(i =>
+                                                <th key={i}>Column #{i + 1}</th>
                                             )
                                         }
                                         <th>Operations</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                                    </TableHead>
+                                    <TableBody>
                                     {
                                         this.state.lotteryNumbers.map((numbers, rowIndex) =>
-                                                <tr key={rowIndex}>
-                                                    {
-                                                        numbers.map(number =>
-                                                                <td key={number}>{number}</td>
-                                                        )
-                                                    }
-                                                    <td>
-                                                        <button className="btn btn-danger"
-                                                                onClick={()=>this.removeRow(rowIndex)}>Remove</button>
-                                                    </td>
-                                                </tr>
+                                            <tr key={rowIndex}>
+                                                {
+                                                    numbers.map(number =>
+                                                        <td key={number}>{number}</td>
+                                                    )
+                                                }
+                                                <td>
+                                                    <Button color="btn-danger"
+                                                            click={() => this.removeRow(rowIndex)}
+                                                            label={"Remove"} />
+                                                </td>
+                                            </tr>
                                         )
                                     }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                    </TableBody>
+                                </Table>
+                            </Row>
+                        </CardBody>
+                    </Card>
+                </Container>
             </>
         );
     }
