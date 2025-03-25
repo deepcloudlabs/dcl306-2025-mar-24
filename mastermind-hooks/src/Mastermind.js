@@ -12,6 +12,7 @@ import Move from "./model/move";
 import Table from "./components/common/table";
 import TableHead from "./components/common/table-head";
 import TableBody from "./components/common/table-body";
+import {useNavigate} from "react-router";
 
 const initialGameState = {
     secret: createSecret(3),
@@ -30,14 +31,15 @@ function Mastermind() {
         maxCounter: 60,
         maxNumberOfMoves: 10
     })
-
+    const navigate = useNavigate();
     const countDown = () => {
         if (counter <= 0) {
             let newGame = {...game};
             let newConstraints = {...constraints};
             newGame.lives--;
             if (newGame.lives === 0){
-                //TODO: Player loses
+                navigate("/loses");
+                return;
             }
             initializeGame(newGame, newConstraints);
             setGame(newGame);
@@ -95,7 +97,8 @@ function Mastermind() {
         if (Number(secret) === Number(guess)) {
             newGame.level++;
             if (newGame.level > 10) {
-                // TODO: Player wins...
+                navigate("/wins");
+                return;
             }
             initializeGame(newGame, newContraints);
         } else {
@@ -105,7 +108,8 @@ function Mastermind() {
         if (newGame.numberOfMoves >= newContraints.maxNumberOfMoves) {
             newGame.lives--;
             if (newGame.lives === 0) {
-                // TODO: player loses
+                navigate("/loses");
+                return;
             } else {
                 initializeGame(newGame, newContraints);
             }
