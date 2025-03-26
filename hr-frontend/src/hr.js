@@ -14,6 +14,51 @@ function Hr() {
     const employee = useEmployee();
     const hrDispatch = useHrDispatch();
     const departments = useDepartments();
+
+    const hireEmployee = () => {
+        fetch("http://localhost:4001/employees",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(employee)
+        }).then(res => res.json())
+        .then(res => hrDispatch({type: "HIRE_EMPLOYEE", status: res.status}));
+    };
+
+    const updateEmployee = () => {
+        fetch("http://localhost:4001/employees",{
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(employee)
+        }).then(res => res.json())
+            .then(res => hrDispatch({type: "UPDATE_EMPLOYEE", status: res.nModified > 0}));
+    };
+
+    const findEmployee = () => {
+        fetch(`http://localhost:4001/employees/${employee.identityNo}`,{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        }).then(res => res.json())
+        .then(employee => hrDispatch({type: "FIND_EMPLOYEE", data: employee}));
+    }
+
+    const fireEmployee = () => {
+        fetch(`http://localhost:4001/employees/${employee.identityNo}`,{
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json"
+            }
+        }).then(res => res.json())
+        .then(firedEmployee => hrDispatch({type: "FIRE_EMPLOYEE", data: firedEmployee}));
+    }
+
     return (
         <Card>
             <CardHeader title={"Employee"}/>
@@ -31,7 +76,10 @@ function Hr() {
                                    })}></InputText>
                         <Button label={"Find Employee"}
                                 color={"bg-success"}
-                                onClick={() => hrDispatch({type: "FIND_EMPLOYEE"})}></Button>
+                                click={findEmployee}></Button>
+                        <Button label={"Fire Employee"}
+                                color={"bg-danger"}
+                                click={fireEmployee}></Button>
                     </Column>
                 </Row>
                 <Row>
@@ -129,13 +177,10 @@ function Hr() {
                     <Column>
                         <Button label={"Hire Employee"}
                                 color={"bg-success"}
-                                onClick={() => hrDispatch({type: "HIRE_EMPLOYEE"})}></Button>
-                        <Button label={"Fire Employee"}
-                                color={"bg-danger"}
-                                onClick={() => hrDispatch({type: "FIRE_EMPLOYEE"})}></Button>
+                                click={hireEmployee}></Button>
                         <Button label={"Update Employee"}
                                 color={"bg-warning"}
-                                onClick={() => hrDispatch({type: "UPDATE_EMPLOYEE"})}></Button>
+                                click={updateEmployee}></Button>
                     </Column>
                     <Column>
                     </Column>
