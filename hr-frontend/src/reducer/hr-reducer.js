@@ -18,8 +18,22 @@ export default function HrReducer(hrState, action) {
                     newHrState.employee[field] = action.data[field];
                 }
             }
+            newHrState.employees = hrState.employees.filter( emp => emp.identityNo !== action.data.identityNo);
+            break;
+        case "RETRIEVE_EMPLOYEES":
+            newHrState.employees = action.data;
             break;
         case "FIND_EMPLOYEE":
+            for (let field in newHrState.employee) {
+                if (action.data.hasOwnProperty(field)) {
+                    newHrState.employee[field] = action.data[field];
+                }
+            }
+            if (!newHrState.employee.photo) {
+                newHrState.employee.photo = NO_IMAGE;
+            }
+            break;
+            case "COPY_ROW":
             for (let field in newHrState.employee) {
                 if (action.data.hasOwnProperty(field)) {
                     newHrState.employee[field] = action.data[field];

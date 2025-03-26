@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function TableBody({values,fields}) {
+export default function TableBody({values,fields,children}) {
     return (
         <tbody>
             {values.map((value, valueIndex) => (
@@ -10,6 +10,7 @@ export default function TableBody({values,fields}) {
                             <td key={index}>{value[field]}</td>
                         ))
                     }
+                    {children}
                 </tr>
             ))}
         </tbody>
