@@ -6,6 +6,9 @@ import {useDepartments, useEmployee, useHrDispatch} from "./provider/hr-provider
 import Row from "./components/common/row";
 import Column from "./components/common/column";
 import SelectBox from "./components/common/select-box";
+import CheckBox from "./components/common/check-box";
+import Photo from "./components/common/photo";
+import Button from "./components/common/button";
 
 function Hr() {
     const employee = useEmployee();
@@ -17,16 +20,18 @@ function Hr() {
             <CardBody>
                 <Row>
                     <Column>
-
-                    <InputText id={"identityNo"}
-                               label={"Identity No"}
-                               value={employee.identityNo}
-                               placeholderText={"Enter a valid identity no"}
-                               handleChange={(event) => hrDispatch({
-                                   type: "INPUT_CHANGED",
-                                   name: "identityNo",
-                                   value: event.target.value
-                               })}></InputText>
+                        <InputText id={"identityNo"}
+                                   label={"Identity No"}
+                                   value={employee.identityNo}
+                                   placeholderText={"Enter a valid identity no"}
+                                   handleChange={(event) => hrDispatch({
+                                       type: "INPUT_CHANGED",
+                                       name: "identityNo",
+                                       value: event.target.value
+                                   })}></InputText>
+                        <Button label={"Find Employee"}
+                                color={"bg-success"}
+                                onClick={() => hrDispatch({type: "FIND_EMPLOYEE"})}></Button>
                     </Column>
                 </Row>
                 <Row>
@@ -81,6 +86,7 @@ function Hr() {
                                    })}></InputText>
                     </Column>
                 </Row>
+                <p/>
                 <Row>
                     <Column>
                         <SelectBox id={"department"}
@@ -92,6 +98,46 @@ function Hr() {
                                        name: "department",
                                        value: event.target.value
                                    })}></SelectBox>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <CheckBox id={"fulltime"}
+                                  label={"Full-time"}
+                                  value={employee.fulltime}
+                                  handleChange={(event) => hrDispatch({
+                                      type: "INPUT_CHANGED",
+                                      name: "fulltime",
+                                      value: event.target.checked
+                                  })}></CheckBox>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Photo id={"photo"}
+                               label={"Photo"}
+                               value={employee.photo}
+                               handleChange={(data) => hrDispatch({
+                                   type: "INPUT_CHANGED",
+                                   name: "photo",
+                                   value: data
+                               })}
+                        ></Photo>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Button label={"Hire Employee"}
+                                color={"bg-success"}
+                                onClick={() => hrDispatch({type: "HIRE_EMPLOYEE"})}></Button>
+                        <Button label={"Fire Employee"}
+                                color={"bg-danger"}
+                                onClick={() => hrDispatch({type: "FIRE_EMPLOYEE"})}></Button>
+                        <Button label={"Update Employee"}
+                                color={"bg-warning"}
+                                onClick={() => hrDispatch({type: "UPDATE_EMPLOYEE"})}></Button>
+                    </Column>
+                    <Column>
                     </Column>
                 </Row>
             </CardBody>
