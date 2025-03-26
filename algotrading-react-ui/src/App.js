@@ -12,13 +12,30 @@ import Table from "./common/table";
 import TableHead from "./common/table-head";
 import TableBody from "./common/table-body";
 import {Line} from "react-chartjs-2";
-import {CategoryScale, Tooltip,Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title} from "chart.js";
+import {
+    CategoryScale,
+    Tooltip,
+    Chart as ChartJS,
+    Legend,
+    LinearScale,
+    LineElement,
+    PointElement,
+    Title
+} from "chart.js";
 
 const socket = io("ws://localhost:5555");
 const options = {
     responsive: false,
     animation: false,
     maintainAspectRatio: true,
+    scales: {
+        y: {
+            type: 'linear',
+            position: 'left',
+            stack: 'demo',
+            stackWeight: 2
+        }
+    },
     plugins: {
         legend: {
             position: 'top',
@@ -38,6 +55,7 @@ ChartJS.register(
     Tooltip,
     Legend
 );
+
 function App() {
     const [windowSize, setWindowSize] = useState(25);
     const [symbol, setSymbol] = useState("BTCUSDT");
@@ -73,8 +91,8 @@ function App() {
             setTrades(newTrades);
             const newChartData = {...chartData};
             newChartData.datasets = [...chartData.datasets];
-            newChartData.labels = [...newChartData.labels,trade.timestamp];
-            newChartData.datasets[0].data = [...newChartData.datasets[0].data,trade.price];
+            newChartData.labels = [...newChartData.labels, trade.timestamp];
+            newChartData.datasets[0].data = [...newChartData.datasets[0].data, trade.price];
             if (newChartData.labels.length >= windowSize) {
                 newChartData.labels = newChartData.labels.slice(newChartData.labels.length - windowSize);
             }
@@ -83,7 +101,7 @@ function App() {
             }
             setChartData(newChartData);
         })
-    }, [trades, windowSize]);
+    }, [trades, windowSize,chartData]);
     const disconnect = () => {
         setConnected(false);
     }
